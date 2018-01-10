@@ -1,13 +1,12 @@
 {
-  "name": "Copy Urls",
+  "name": "Voice Search",
   "short_name": "__MSG_appShortName__",
-  "description": "見ているページのURLをクリップボードに送る。",
+  "description": "タブを開き、google音声検索の入力待ち状態にする。",
   "version": "0.0.0",
   "manifest_version": 2,
   "default_locale": "en",
   "icons": {
-    "16": "images/icon_SDcard.png",
-    "128": "images/icon_SDcard.png"
+    "128": "images/icon_mike.png"
   },
   "background": {
     "scripts": [
@@ -15,11 +14,10 @@
     ]
   },
   "browser_action": {
-      "default_icon": "images/icon_SDcard.png",
-      "default_title": "Copy urls.",
+      "default_icon": "images/icon_mike.png",
+      "default_title": "Voice Search.",
       "default_popup": "pages/popup.html"
   },
-  "options_page": "pages/options.html",
   "options_ui": {
     "page": "pages/options.html",
     "chrome_style": true

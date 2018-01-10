@@ -6,32 +6,21 @@ const jquery = require('jquery');
 window.$ = window.jQuery = jquery;
 const util = require('./util')
 
-
-chrome.runtime.onMessage.addListener(function(request, sender, sendResponse){
-    if (request.method == "copyUrlOfActiveTab"){
-        chrome.tabs.query({active: true, currentWindow: true}, function(result){
-            const activeTab = result[0];
-            const url = decodeURIComponent(activeTab.url);
-            util.copyTextToClipboard(url);
-        })
-    }
-    if (request.method == "copyUrlOfAllTab"){
-        chrome.tabs.query({currentWindow: true}, function(result){
-            let urlsText = "";
-            for(let activeTab of result){
-                const url = decodeURIComponent(activeTab.url);
-                if(url.match(/chrome:\/\/extensions\/.*/)){   // google searchの結果ページはコピーしない。
-                    continue
+chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
+    if (request.method == "createTab"){
+        chrome.tabs.create({url: "https://www.google.co.jp/", active:true }, function(tab){
+            const newtabTabId = tab.id;
+            const storageKey = "extension_OpenGoogleResults__tabKey_" + newtabTabId;
+            localStorage[storageKey] = "not done";   // Done or not.
+            // 新規タブのロードが完了したら、click_voice_search.js を実行。
+            chrome.tabs.onUpdated.addListener(function (tabId , info) {
+                if (tabId === newtabTabId && info.status === 'complete' && localStorage[storageKey]==="not done") {
+                    chrome.tabs.executeScript(null, {file: "click_voice_search.js"});
+                    localStorage[storageKey] = "Done";
                 }
-                if(url.match(/.*google.*search?.*/)){   // google searchの結果ページはコピーしない。
-                    continue
-                }
-                urlsText = urlsText + url + "\n";
-            }
-            util.copyTextToClipboard(urlsText);
-        })
+            });
+        });
     }
-
     sendResponse({});
 });
 
