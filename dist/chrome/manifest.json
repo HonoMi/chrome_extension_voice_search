@@ -1,0 +1,73 @@
+{
+  "name": "Voice Search",
+  "short_name": "__MSG_appShortName__",
+  "description": "タブを開き、google音声検索の入力待ち状態にする。",
+  "version": "0.0.0",
+  "manifest_version": 2,
+  "default_locale": "en",
+  "icons": {
+    "128": "images/icon_mike.png"
+  },
+  "background": {
+    "scripts": [
+      "scripts/background.js"
+    ]
+  },
+  "browser_action": {
+    "default_icon": "images/icon_mike.png",
+    "default_title": "Voice Search.",
+    "default_popup": "pages/popup.html"
+  },
+  "options_ui": {
+    "page": "pages/options.html",
+    "chrome_style": true
+  },
+  "minimum_chrome_version": "10.0",
+  "devtools_page": "pages/devtools.html",
+  "content_scripts": [
+    {
+      "matches": [
+        "http://*/*",
+        "https://*/*"
+      ],
+      "css": [
+        "styles/contentscript.css"
+      ],
+      "js": [
+        "scripts/contentscript.js"
+      ],
+      "run_at": "document_end",
+      "all_frames": false
+    }
+  ],
+  "permissions": [
+    "bookmarks",
+    "clipboardRead",
+    "clipboardWrite",
+    "commands",
+    "contentSettings",
+    "contextMenus",
+    "cookies",
+    "debugger",
+    "declarativeContent",
+    "history",
+    "input",
+    "management",
+    "notifications",
+    "pageCapture",
+    "proxy",
+    "tabCapture",
+    "tabs",
+    "topSites",
+    "webNavigation",
+    "webRequest",
+    "webRequestBlocking",
+    "<all_urls>"
+  ],
+  "web_accessible_resources": [
+    "./scripts/*.js",
+    "./*.png",
+    "./*.html",
+    "./styles/*.css"
+  ]
+}
